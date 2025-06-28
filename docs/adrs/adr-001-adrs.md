@@ -19,7 +19,7 @@ the reasoning behind them in the repository will help to:
 ## Advice
 
 ADR's are useful for documenting decisions and the reasoning behind them. They
-they are a useful tool for devlopers to refer to. They should be kept up to
+are a useful tool for developers to refer to. They should be kept up to
 date and should be reviewed regularly. They should be stored in the repository
 so that they are easily accessible and can be updated as the project evolves.
 
