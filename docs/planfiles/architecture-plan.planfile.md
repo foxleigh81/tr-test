@@ -95,6 +95,8 @@ src/
 └── data/                         # Mock data and fixtures
 ```
 
+Note: For this application, only `data-display` is being used, I've included the others in the plan for a demonstration of how I'd architect the project for scale.
+
 ## Data Architecture
 
 ### API Structure
