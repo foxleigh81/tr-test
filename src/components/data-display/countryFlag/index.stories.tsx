@@ -81,7 +81,7 @@ export const AllFlags: Story = {
         {countryCodes.map((code) => (
           <div key={code} className="flex flex-col items-center space-y-2">
             <CountryFlag countryCode={code} />
-            <span className="text-sm font-medium">{code}</span>
+            <span className="text-sm font-medium text-gray-400">{code}</span>
           </div>
         ))}
       </div>
