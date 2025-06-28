@@ -36,14 +36,16 @@ export const CountryFlag = memo<CountryFlagProps>(({ countryCode, className = ''
     return null;
   }
 
-  const yPosition = country.position * 17; // Each flag is 17px high
+  const FLAG_HEIGHT = 17;
+
+  const yPosition = country.position * FLAG_HEIGHT; // Each flag is 17px high
 
   return (
     <div
       className={`inline-block ${className}`}
       style={{
         width: '28px',
-        height: '17px',
+        height: `${FLAG_HEIGHT}px`,
         backgroundImage: 'url(/images/flags.png)',
         backgroundPosition: `0 -${yPosition}px`,
         backgroundRepeat: 'no-repeat',
