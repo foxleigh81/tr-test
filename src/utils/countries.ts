@@ -31,5 +31,11 @@ export function isValidCountryCode(code: unknown): code is CountryCode {
  * Get country information by code
  */
 export function getCountryInfo(code: CountryCode) {
-  return COUNTRY_MAP[code];
+  const country = COUNTRY_MAP[code.toUpperCase() as CountryCode];
+
+  if (!country) {
+    throw new Error(`Country code ${code} not found`);
+  }
+
+  return country;
 } 
