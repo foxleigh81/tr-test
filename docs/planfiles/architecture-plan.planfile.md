@@ -78,7 +78,8 @@ Based on the established ADRs, we have already made the following architectural 
 src/
 ├── app/                          # Next.js App Router pages
 │   ├── api/                      # API routes
-│   │   └── medals/               # Medal data endpoint
+│   │   └── v1/                   # API version 1
+│   │       └── medals/           # Medal data endpoint
 │   ├── dashboard/                # Dashboard page
 │   └── layout.tsx                # Root layout
 ├── components/                   # Pure functional components
@@ -101,7 +102,7 @@ src/
 Based on the API development planning, we'll have a single endpoint:
 
 ```typescript
-// GET /api/medals?sort=gold|silver|bronze|total
+// GET /api/v1/medals?sort=gold|silver|bronze|total
 interface MedalCountry {
   code: string;        // ISO 3166-1 alpha-3 country codes
   gold: number;        // Gold medal count
@@ -114,8 +115,8 @@ interface MedalCountry {
 interface MedalsResponse {
   data: MedalCountry[];
   meta: {
-    total: number;
-    sort: string;
+    totalCountries: number;
+    sortType: string;
     timestamp: string;
   };
 }
@@ -133,7 +134,7 @@ interface MedalsResponse {
 Keep it simple and scalable:
 
 - **Local component state** for UI-only behaviour (modals, dropdowns, form inputs)
-- **Server state** from `/api/medals` endpoint (easily cached)
+- **Server state** from `/api/v1/medals` endpoint (easily cached)
 - **URL state** for sort parameter (shareable links, browser history)
 - **Minimal client state** - avoid complex state management unless truly needed
 

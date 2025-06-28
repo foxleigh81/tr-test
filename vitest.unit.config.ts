@@ -5,11 +5,14 @@ import { defineConfig } from 'vitest/config';
 const dirname =
   typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
-// Base Vitest configuration - Storybook tests now use @storybook/test-runner
 export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(dirname, './src'),
     },
   },
-});
+  test: {
+    include: ['tests/**/*.{test,spec}.{js,ts}'],
+    environment: 'node',
+  },
+}); 
