@@ -91,7 +91,7 @@ export const TableHeading = memo<TableHeadingProps>(({
           <Medal rank="bronze" />
         </th>
         <th 
-          className={`p-2 text-center uppercase text-gray-700 ${getSortableColumnClasses('total')}`}
+          className={`p-2 text-center uppercase text-gray-700 text-sm ${getSortableColumnClasses('total')}`}
           onClick={() => handleSort('total')}
           role="button"
           tabIndex={0}

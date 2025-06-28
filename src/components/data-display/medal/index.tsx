@@ -35,17 +35,17 @@ export const Medal = memo<MedalProps>(({ rank, className = '' }) => {
 
   return (
     <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
       className={`inline-block ${className}`}
       role="img"
       aria-label={getMedalLabel(rank)}
     >
       <circle
-        cx="12"
-        cy="12"
-        r="10"
+        cx="10"
+        cy="10"
+        r="8"
         fill={getColour(rank)}
       />
     </svg>
