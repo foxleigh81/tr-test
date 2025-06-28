@@ -9,6 +9,9 @@ As described in [Use planfiles to assist your AI with your work](https://www.fox
 planfiles serve as a crucial bridge between human intent and AI execution, ensuring both parties are aligned on requirements,
 constraints, and implementation details.
 
+Note: I only use planfiles for working out complexity, so you will not see planfiles here for simpler things that I can 
+build without having to plan in advance.
+
 ## How Planfiles Work
 
 The typical planfile workflow involves two phases:
