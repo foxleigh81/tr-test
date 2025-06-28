@@ -32,6 +32,11 @@ function parseMedalCount(value: unknown): number | null {
   return null;
 }
 
+// Format display values
+const formatMedalCount = (count: number | null): string => {
+  return count !== null ? count.toString() : '—';
+};
+
 /**
  * Table row component displaying country ranking and medal counts
  */
@@ -57,18 +62,13 @@ export const TableRow = memo<TableRowProps>(({
   const validCounts = [goldCount, silverCount, bronzeCount].filter((count): count is number => count !== null);
   const total = validCounts.reduce((sum, count) => sum + count, 0);
 
-  // Format display values
-  const formatMedalCount = (count: number | null): string => {
-    return count !== null ? count.toString() : '—';
-  };
-
   return (
     <tr className={`${className} border-b-1 border-gray-200`}>
       <td className="py-2 px-1 text-left align-middle text-gray-500">{ranking}</td>
       <td className="py-2 px-1 text-left align-middle">
         <CountryFlag countryCode={countryCode} />
       </td>
-      <td className="py-2 px-2 text-left line-height-1 align-middle font-bold text-gray-500 w-[100px]">{countryCode}</td>
+      <td className="py-2 px-2 text-left line-height-1 align-middle font-bold text-gray-500 w-[100px]">{countryCode.toUpperCase()}</td>
       <td className="py-2 px-1 text-center align-middle text-gray-500">{formatMedalCount(goldCount)}</td>
       <td className="py-2 px-1 text-center align-middle text-gray-500">{formatMedalCount(silverCount)}</td>
       <td className="py-2 px-1 text-center align-middle text-gray-500">{formatMedalCount(bronzeCount)}</td>
