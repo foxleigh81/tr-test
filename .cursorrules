@@ -6,6 +6,7 @@ code generations, and refactors:
 - React functional components only, using hooks.
 - Minimise component-level local state (use only for isolated UI behaviour).
 - Storybook: all components and partials need an `index.stories.tsx` and appropriate interaction tests.
+- Storybook: Storybook tests should use the `storybook/testing-library`
 - Any significant documentation should be added to an appropriate existing file (or a new file if required) in the `docs` folder in the repo root.
 - React components should have a JSDoc style description of the component but don't include params or the return type. Just a text description.
 - If i ask for a component it should be placed in /src/components
