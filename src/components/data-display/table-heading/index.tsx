@@ -57,6 +57,7 @@ export const TableHeading = memo<TableHeadingProps>(({
             }
           }}
           aria-label="Sort by gold medals"
+          data-testid="sort-gold"
         >
           <Medal rank="gold" />
         </th>
@@ -72,6 +73,7 @@ export const TableHeading = memo<TableHeadingProps>(({
             }
           }}
           aria-label="Sort by silver medals"
+          data-testid="sort-silver"
         >
           <Medal rank="silver" />
         </th>
@@ -87,6 +89,7 @@ export const TableHeading = memo<TableHeadingProps>(({
             }
           }}
           aria-label="Sort by bronze medals"
+          data-testid="sort-bronze"
         >
           <Medal rank="bronze" />
         </th>
@@ -102,6 +105,7 @@ export const TableHeading = memo<TableHeadingProps>(({
             }
           }}
           aria-label="Sort by total medals"
+          data-testid="sort-total"
         >
           total
         </th>

@@ -176,6 +176,29 @@ describe('countries utility', () => {
       const uniquePositions = new Set(positions);
       expect(positions).toHaveLength(uniquePositions.size);
     });
+
+    it('should handle case-insensitive input', () => {
+      expect(getCountryInfo('usa' as CountryCode)).toEqual({
+        name: 'United States of America',
+        position: 12
+      });
+      
+      expect(getCountryInfo('CaN' as CountryCode)).toEqual({
+        name: 'Canada',
+        position: 2
+      });
+      
+      expect(getCountryInfo('dEu' as CountryCode)).toEqual({
+        name: 'Germany',
+        position: 5
+      });
+    });
+
+    it('should throw error for invalid country codes', () => {
+      expect(() => getCountryInfo('INVALID' as CountryCode)).toThrow('Country code INVALID not found');
+      expect(() => getCountryInfo('xyz' as CountryCode)).toThrow('Country code xyz not found');
+      expect(() => getCountryInfo('123' as CountryCode)).toThrow('Country code 123 not found');
+    });
   });
 
   describe('type safety and integration', () => {

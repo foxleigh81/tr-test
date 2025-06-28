@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
-import { CountryFlag, type CountryCode } from './index';
+import { CountryFlag } from './index';
+import { type CountryCode } from '@/utils/countries';
 
 const meta: Meta<typeof CountryFlag> = {
   title: 'CountryFlag',
@@ -81,7 +82,7 @@ export const AllFlags: Story = {
         {countryCodes.map((code) => (
           <div key={code} className="flex flex-col items-center space-y-2">
             <CountryFlag countryCode={code} />
-            <span className="text-sm font-medium text-gray-400">{code}</span>
+            <span className="text-sm font-medium text-gray-500">{code}</span>
           </div>
         ))}
       </div>

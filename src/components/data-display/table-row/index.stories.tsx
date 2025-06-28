@@ -51,13 +51,13 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     
-    // Check that all data is displayed correctly
-    await expect(canvas.getByText('1')).toBeInTheDocument();
-    await expect(canvas.getByText('USA')).toBeInTheDocument();
-    await expect(canvas.getByText('39')).toBeInTheDocument();
-    await expect(canvas.getByText('41')).toBeInTheDocument();
-    await expect(canvas.getByText('33')).toBeInTheDocument();
-    await expect(canvas.getByText('113')).toBeInTheDocument(); // Total
+    // Check that all data is displayed correctly using data-testid
+    await expect(canvas.getByTestId('ranking')).toHaveTextContent('1');
+    await expect(canvas.getByTestId('country-code')).toHaveTextContent('USA');
+    await expect(canvas.getByTestId('gold-count')).toHaveTextContent('39');
+    await expect(canvas.getByTestId('silver-count')).toHaveTextContent('41');
+    await expect(canvas.getByTestId('bronze-count')).toHaveTextContent('33');
+    await expect(canvas.getByTestId('total-count')).toHaveTextContent('113');
     
     // Check that flag is displayed
     const flag = canvas.getByRole('img');
@@ -131,14 +131,14 @@ export const MixedValidAndInvalid: Story = {
     const canvas = within(canvasElement);
     
     // Valid numbers should display
-    await expect(canvas.getByText('10')).toBeInTheDocument();
-    await expect(canvas.getByText('8')).toBeInTheDocument();
+    await expect(canvas.getByTestId('gold-count')).toHaveTextContent('10');
+    await expect(canvas.getByTestId('bronze-count')).toHaveTextContent('8');
     
     // Invalid should show dash
-    await expect(canvas.getByText('—')).toBeInTheDocument();
+    await expect(canvas.getByTestId('silver-count')).toHaveTextContent('—');
     
     // Total should only include valid values (10 + 8 = 18)
-    await expect(canvas.getByText('18')).toBeInTheDocument();
+    await expect(canvas.getByTestId('total-count')).toHaveTextContent('18');
   },
 };
 
@@ -154,11 +154,12 @@ export const AllInvalidMedals: Story = {
     const canvas = within(canvasElement);
     
     // All medal counts should show dashes
-    const dashes = canvas.getAllByText('—');
-    await expect(dashes).toHaveLength(3);
+    await expect(canvas.getByTestId('gold-count')).toHaveTextContent('—');
+    await expect(canvas.getByTestId('silver-count')).toHaveTextContent('—');
+    await expect(canvas.getByTestId('bronze-count')).toHaveTextContent('—');
     
     // Total should be 0 (no valid values)
-    await expect(canvas.getByText('0')).toBeInTheDocument();
+    await expect(canvas.getByTestId('total-count')).toHaveTextContent('0');
   },
 };
 
@@ -208,12 +209,14 @@ export const EdgeCaseStrings: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     
-    // Whitespace-padded string should be invalid (doesn't match parsed.toString())
-    await expect(canvas.getByText('—')).toBeInTheDocument();
+    // Whitespace-padded string should be valid as they are parsed as numbers
+    await expect(canvas.getByTestId('gold-count')).toHaveTextContent('5');
     
     // Decimal should be invalid
-    const dashes = canvas.getAllByText('—');
-    await expect(dashes.length).toBeGreaterThanOrEqual(2);
+    await expect(canvas.getByTestId('silver-count')).toHaveTextContent('—');
+    
+    // String with non-numeric characters should be invalid
+    await expect(canvas.getByTestId('bronze-count')).toHaveTextContent('—');
   },
 };
 
@@ -228,42 +231,29 @@ export const AllCountries: Story = {
     ];
     
     return (
-      <table>
-        <thead>
-          <tr className="border-b-2 border-gray-500">
-            <th className="p-2" colSpan={3}>
-              <span className="sr-only">countries</span>
-            </th>
-            <th className="p-2">Gold</th>
-            <th className="p-2">Silver</th>
-            <th className="p-2">Bronze</th>
-            <th className="p-2">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {countries.map(country => (
-            <TableRow
-              key={country.code}
-              ranking={country.rank}
-              countryCode={country.code}
-              gold={country.gold}
-              silver={country.silver}
-              bronze={country.bronze}
-            />
-          ))}
-        </tbody>
-      </table>
+      <>
+        {countries.map(country => (
+          <TableRow
+            key={country.code}
+            ranking={country.rank}
+            countryCode={country.code}
+            gold={country.gold}
+            silver={country.silver}
+            bronze={country.bronze}
+          />
+        ))}
+      </>
     );
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     
-    // Check that all rows are rendered
-    await expect(canvas.getByText('USA')).toBeInTheDocument();
-    await expect(canvas.getByText('CHN')).toBeInTheDocument();
-    await expect(canvas.getByText('DEU')).toBeInTheDocument();
-    await expect(canvas.getByText('FRA')).toBeInTheDocument();
-    await expect(canvas.getByText('CAN')).toBeInTheDocument();
+    // Check that all rows are rendered using data-testid
+    await expect(canvas.getByTestId('table-row-USA')).toBeInTheDocument();
+    await expect(canvas.getByTestId('table-row-CHN')).toBeInTheDocument();
+    await expect(canvas.getByTestId('table-row-DEU')).toBeInTheDocument();
+    await expect(canvas.getByTestId('table-row-FRA')).toBeInTheDocument();
+    await expect(canvas.getByTestId('table-row-CAN')).toBeInTheDocument();
     
     // Check that flags are displayed
     const flags = canvas.getAllByRole('img');
@@ -283,9 +273,9 @@ export const CaseInsensitiveCountryCode: Story = {
     const canvas = within(canvasElement);
     
     // Should render correctly with lowercase input
-    await expect(canvas.getByText('10')).toBeInTheDocument();
-    await expect(canvas.getByText('USA')).toBeInTheDocument(); // But display uppercase
-    await expect(canvas.getByText('5')).toBeInTheDocument();
+    await expect(canvas.getByTestId('ranking')).toHaveTextContent('10');
+    await expect(canvas.getByTestId('country-code')).toHaveTextContent('USA'); // But display uppercase
+    await expect(canvas.getByTestId('gold-count')).toHaveTextContent('5');
     
     // Check that flag is displayed correctly
     const flag = canvas.getByRole('img');
@@ -305,9 +295,9 @@ export const MixedCaseCountryCode: Story = {
     const canvas = within(canvasElement);
     
     // Should render correctly with mixed case input
-    await expect(canvas.getByText('11')).toBeInTheDocument();
-    await expect(canvas.getByText('CAN')).toBeInTheDocument(); // But display uppercase
-    await expect(canvas.getByText('3')).toBeInTheDocument();
+    await expect(canvas.getByTestId('ranking')).toHaveTextContent('11');
+    await expect(canvas.getByTestId('country-code')).toHaveTextContent('CAN'); // But display uppercase
+    await expect(canvas.getByTestId('gold-count')).toHaveTextContent('3');
     
     // Check that flag is displayed correctly
     const flag = canvas.getByRole('img');

@@ -62,17 +62,19 @@ export const TableRow = memo<TableRowProps>(({
   const validCounts = [goldCount, silverCount, bronzeCount].filter((count): count is number => count !== null);
   const total = validCounts.reduce((sum, count) => sum + count, 0);
 
+  const normalizedCountryCode = (countryCode as string).toUpperCase();
+  
   return (
-    <tr className={`${className} border-b-1 border-gray-200`}>
-      <td className="py-2 px-1 text-left align-middle text-gray-500">{ranking}</td>
-      <td className="py-2 px-1 text-left align-middle">
+    <tr className={`${className} border-b-1 border-gray-200`} data-testid={`table-row-${normalizedCountryCode}`}>
+      <td className="py-2 px-1 text-left align-middle text-gray-500" data-testid="ranking">{ranking}</td>
+      <td className="py-2 px-1 text-left align-middle" data-testid="flag">
         <CountryFlag countryCode={countryCode} />
       </td>
-      <td className="py-2 px-2 text-left line-height-1 align-middle font-bold text-gray-500 w-[100px]">{countryCode.toUpperCase()}</td>
-      <td className="py-2 px-1 text-center align-middle text-gray-500">{formatMedalCount(goldCount)}</td>
-      <td className="py-2 px-1 text-center align-middle text-gray-500">{formatMedalCount(silverCount)}</td>
-      <td className="py-2 px-1 text-center align-middle text-gray-500">{formatMedalCount(bronzeCount)}</td>
-      <td className="p-2 text-center align-middle font-bold text-gray-600">{total}</td>
+      <td className="py-2 px-2 text-left line-height-1 align-middle font-bold text-gray-500 w-[100px]" data-testid="country-code">{normalizedCountryCode}</td>
+      <td className="py-2 px-1 text-center align-middle text-gray-500" data-testid="gold-count">{formatMedalCount(goldCount)}</td>
+      <td className="py-2 px-1 text-center align-middle text-gray-500" data-testid="silver-count">{formatMedalCount(silverCount)}</td>
+      <td className="py-2 px-1 text-center align-middle text-gray-500" data-testid="bronze-count">{formatMedalCount(bronzeCount)}</td>
+      <td className="p-2 text-center align-middle font-bold text-gray-600" data-testid="total-count">{total}</td>
     </tr>
   );
 });

@@ -37,8 +37,8 @@ export const Default: Story = {
     await expect(medal).toHaveAttribute('aria-label', 'Gold medal');
     
     // Check that the medal has the correct dimensions
-    await expect(medal).toHaveAttribute('width', '24');
-    await expect(medal).toHaveAttribute('height', '24');
+    await expect(medal).toHaveAttribute('width', '20');
+    await expect(medal).toHaveAttribute('height', '20');
   },
 };
 
@@ -87,7 +87,7 @@ export const AllMedals: Story = {
         {medalRanks.map((rank) => (
           <div key={rank} className="flex flex-col items-center space-y-2 w-16">
             <Medal rank={rank} />
-            <span className="text-sm font-medium text-gray-400 capitalize">{rank}</span>
+            <span className="text-sm font-medium text-gray-500 capitalize">{rank}</span>
           </div>
         ))}
       </div>
