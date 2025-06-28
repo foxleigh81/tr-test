@@ -2,7 +2,8 @@
 
 ## Objective
 
-Build a scalable, maintainable Olympic medals dashboard application that displays medal data through a clean, accessible interface. The application will demonstrate best practices in component-driven development while being built for scale.
+Build a scalable, maintainable Olympic medals dashboard application that displays medal data through a clean, accessible
+interface. The application will demonstrate best practices in component-driven development while being built for scale.
 
 ## Completed Boilerplate Work
 
@@ -49,13 +50,12 @@ Based on the established ADRs, we have already made the following architectural 
 - Components must have corresponding `.stories.tsx` files with interaction tests
 - Living documentation through Storybook's auto-generated docs
 
-#### 2. Atomic Updates
+#### 2. Consistent State Management
 
-- **State consistency**: All related state changes happen together as a single update
-- **UI consistency**: Prevent intermediate states from being rendered during updates
-- **Data integrity**: Ensure medal data, filters, and UI state remain in sync
-- **Race condition prevention**: Avoid partial updates that could lead to inconsistent application state
-- **Transactional updates**: Batch related changes to prevent flickering or partial renders
+- **State consistency**: Keep related UI state synchronized (filters, sort order, displayed data)
+- **Predictable updates**: State changes happen in a predictable, debuggable way
+- **Data integrity**: Ensure UI state matches the current data and user selections
+- **Smooth user experience**: Prevent jarring UI changes and loading states
 
 #### 3. SOLID Principles
 
@@ -78,8 +78,7 @@ Based on the established ADRs, we have already made the following architectural 
 src/
 ├── app/                          # Next.js App Router pages
 │   ├── api/                      # API routes
-│   │   └── medals/               # Medal data endpoints
-│   │   └── countries/            # Country data endpoints
+│   │   └── medals/               # Medal data endpoint
 │   ├── dashboard/                # Dashboard page
 │   └── layout.tsx                # Root layout
 ├── components/                   # Pure functional components
@@ -99,37 +98,44 @@ src/
 
 ### API Structure
 
+Based on the API development planning, we'll have a single endpoint:
+
 ```typescript
-// GET /api/medals
-interface MedalData {
-  id: string;
-  country: string;
-  countryCode: string;
-  sport: string;
-  event: string;
-  medalType: 'gold' | 'silver' | 'bronze';
-  athlete: string;
-  year: number;
-  games: 'summer' | 'winter';
+// GET /api/medals?sort=gold|silver|bronze|total
+interface MedalCountry {
+  code: string;        // ISO 3166-1 alpha-3 country codes
+  gold: number;        // Gold medal count
+  silver: number;      // Silver medal count
+  bronze: number;      // Bronze medal count
+  total: number;       // Computed total (gold + silver + bronze)
+  rank: number;        // Position in current sort order
 }
 
-// GET /api/medals/summary
-interface MedalSummary {
-  country: string;
-  countryCode: string;
-  gold: number;
-  silver: number;
-  bronze: number;
-  total: number;
+interface MedalsResponse {
+  data: MedalCountry[];
+  meta: {
+    total: number;
+    sort: string;
+    timestamp: string;
+  };
 }
 ```
 
+**Key API Features:**
+
+- Single sort parameter with tie-breaking rules (as per specification)
+- Server-side calculation of totals and rankings
+- Built for database migration (though starting with JSON)
+- TypeScript interfaces that can evolve with requirements
+
 ### State Management Strategy
 
-- **Local component state** for UI-only behaviour (modals, dropdowns)
-- **Server state** managed through Next.js API routes and SWR/React Query
-- **URL state** for filters and search parameters (Next.js router)
-- **Client state** minimised, only for cross-component UI state
+Keep it simple and scalable:
+
+- **Local component state** for UI-only behaviour (modals, dropdowns, form inputs)
+- **Server state** from `/api/medals` endpoint (easily cached)
+- **URL state** for sort parameter (shareable links, browser history)
+- **Minimal client state** - avoid complex state management unless truly needed
 
 ## Component Design Patterns
 
@@ -168,66 +174,17 @@ interface ComponentProps {
 - Screen reader compatibility
 - Colour contrast compliance
 
-## Implementation Phases
-
-### Phase 1: Foundation Setup ✅
-
-- [x] Next.js project setup with TypeScript
-- [x] Tailwind CSS configuration
-- [x] Storybook configuration
-- [x] ADR documentation structure
-
-### Phase 2: Design System (Atoms)
-
-- [ ] Create base typography components
-- [ ] Implement button variants and states
-- [ ] Build icon system with SVG components
-- [ ] Create badge/chip components for medal types
-- [ ] Establish colour palette and spacing tokens
-
-### Phase 3: Core Components (Molecules)
-
-- [ ] Build country flag component with flag icons
-- [ ] Create medal card component for individual medals
-- [ ] Implement search/filter input components
-- [ ] Build statistic display components
-
-### Phase 4: Complex Components (Organisms)
-
-- [ ] Develop comprehensive medal table with sorting
-- [ ] Build country rankings leaderboard
-- [ ] Create advanced filter panel with multiple criteria
-- [ ] Implement dashboard header with navigation
-
-### Phase 5: API & Data Layer
-
-- [ ] Set up Next.js API routes for medal data
-- [ ] Implement data fetching with error handling
-- [ ] Create custom hooks for data management
-- [ ] Add loading and error states
-
-### Phase 6: Page Assembly
-
-- [ ] Build dashboard template layout
-- [ ] Create medal dashboard partial
-- [ ] Implement responsive design
-- [ ] Add performance optimisations
-
-### Phase 7: Testing & Polish
-
-- [ ] Complete Storybook stories with interaction tests
-- [ ] Implement accessibility testing
-- [ ] Performance optimisation and bundle analysis
-- [ ] Cross-browser compatibility testing
-
 ## Technical Constraints
 
 ### Performance Requirements
 
-- Page load time under 2 seconds
-- Bundle size optimisation through code splitting
-- Image optimisation for country flags
-- Efficient data filtering and sorting
+Realistic targets for demonstrating scalable thinking:
+
+- **Page load time**: Under 2 seconds on typical connections
+- **API responses**: Under 100ms for sorting operations
+- **Bundle optimization**: Code splitting for non-critical components
+- **Image optimization**: Efficient country flag loading
+- **Scalable sorting**: Server-side processing ready for larger datasets
 
 ### Browser Support
 
@@ -240,21 +197,36 @@ interface ComponentProps {
 - WCAG 2.1 AA compliance
 - Screen reader compatibility
 - Keyboard navigation
-- High contrast mode support
 
 ## Future Considerations
 
-### Scalability Opportunities
+### Scalability Architecture
 
-- Add real-time data updates capability
+The application is designed to handle growth gracefully:
 
-### Feature Extensions
+- **Database-ready API**: Easy migration from JSON to PostgreSQL
+- **Component-driven development**: Reusable components that scale
+- **Server-side processing**: Efficient handling of larger datasets
+- **Consistent interfaces**: API design that remains stable as data sources change
 
-- Medal progression animations
-- Historical data comparison
-- Athlete profile pages
-- Interactive charts and graphs
-- Export functionality for medal data
+### Future Feature Extensions
 
-This architecture plan establishes a solid foundation for building a scalable, maintainable Olympic medals
-dashboard while adhering to modern development best practices and the principles outlined in our ADRs.
+- **Real-time updates**: Live medal count updates during events
+- **Historical data**: Medal progression over multiple Olympics
+- **Enhanced visualizations**: Charts and graphs for medal trends
+- **Athlete profiles**: Detailed athlete information and achievements
+- **Export functionality**: CSV/PDF export of medal data
+- **Multi-language support**: Localized country names and interfaces
+
+## Key Architectural Lessons
+
+Based on the API development planning process, this architecture emphasizes:
+
+1. **Practical scalability** - Building for growth without over-engineering the current solution  
+2. **Simple, effective patterns** - Clear separation of concerns without complex abstractions
+3. **Database-ready design** - Architecture that works for both JSON files and future database integration
+4. **Component-driven development** - Storybook-first approach for maintainable, testable components
+5. **Performance through simplicity** - Server-side processing and efficient data structures
+
+This architecture plan establishes a solid foundation for building a scalable, maintainable Olympic medals dashboard while 
+balancing best practices with practical implementation needs.
