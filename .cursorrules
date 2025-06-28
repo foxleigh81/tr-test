@@ -23,7 +23,7 @@ code generations, and refactors:
 - If you are asked to move or rename a file, create the new file first, use the old file as reference and then perform the deletion of the original file as the last step.
 - Please follow SOLID and DRY principles wherever it is sensible to do so. If you do not follow these principles, please justify your reasons in the chat.
 
-CRITIAL: Prohibited patterns (never use):
+CRITICAL: Prohibited patterns (never use):
 
 - Class components
 - `any` types
