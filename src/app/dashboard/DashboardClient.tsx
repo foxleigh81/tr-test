@@ -109,15 +109,18 @@ export default function DashboardClient({
     <div className="max-w-xl mx-auto">
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full" role="table">
+          <table className="w-full">
+            <caption className="sr-only">
+              Olympic medal counts by country, sortable by gold, silver, bronze, or total
+            </caption>
             <colgroup>
-                <col className="w-[1%] whitespace-nowrap" />
-                <col className="w-[1%] whitespace-nowrap" />
-                <col />
-                <col className="w-[1%] whitespace-nowrap" />
-                <col className="w-[1%] whitespace-nowrap" />
-                <col className="w-[1%] whitespace-nowrap" />
-                <col className="w-[1%] whitespace-nowrap" />
+              <col className="w-[1%] whitespace-nowrap" />
+              <col className="w-[1%] whitespace-nowrap" />
+              <col />
+              <col className="w-[1%] whitespace-nowrap" />
+              <col className="w-[1%] whitespace-nowrap" />
+              <col className="w-[1%] whitespace-nowrap" />
+              <col className="w-[1%] whitespace-nowrap" />
             </colgroup>
             <TableHeading sortBy={state.sortType} onSort={handleSort} />
             <tbody>

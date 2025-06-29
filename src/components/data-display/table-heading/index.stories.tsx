@@ -46,26 +46,26 @@ export const Default: Story = {
     const canvas = within(canvasElement);
     
     // Check that all medal columns are present using data-testid
-    const goldColumn = canvas.getByTestId('sort-gold');
-    const silverColumn = canvas.getByTestId('sort-silver');
-    const bronzeColumn = canvas.getByTestId('sort-bronze');
-    const totalColumn = canvas.getByTestId('sort-total');
+    const goldButton = canvas.getByTestId('sort-gold');
+    const silverButton = canvas.getByTestId('sort-silver');
+    const bronzeButton = canvas.getByTestId('sort-bronze');
+    const totalButton = canvas.getByTestId('sort-total');
     
-    await expect(goldColumn).toBeInTheDocument();
-    await expect(silverColumn).toBeInTheDocument();
-    await expect(bronzeColumn).toBeInTheDocument();
-    await expect(totalColumn).toBeInTheDocument();
+    await expect(goldButton).toBeInTheDocument();
+    await expect(silverButton).toBeInTheDocument();
+    await expect(bronzeButton).toBeInTheDocument();
+    await expect(totalButton).toBeInTheDocument();
     
-    // Check that gold is active by default (should have top border)
-    await expect(goldColumn).toHaveClass('border-t-2', 'border-gray-500');
+    // Check that gold is active by default (should have top border on parent th)
+    await expect(goldButton.parentElement).toHaveClass('border-t-2', 'border-gray-500');
     
     // Check that medals are displayed
     const medals = canvas.getAllByRole('img');
     await expect(medals).toHaveLength(3);
     
-    // Check total text is uppercase
-    await expect(totalColumn).toHaveClass('uppercase');
-    await expect(totalColumn).toHaveTextContent('total');
+    // Check total text is uppercase and contains correct text
+    await expect(totalButton).toHaveClass('uppercase');
+    await expect(totalButton).toHaveTextContent('total');
   },
 };
 
@@ -76,9 +76,9 @@ export const SortByGold: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const goldColumn = canvas.getByTestId('sort-gold');
+    const goldButton = canvas.getByTestId('sort-gold');
     
-    await expect(goldColumn).toHaveClass('border-t-2', 'border-gray-500');
+    await expect(goldButton.parentElement).toHaveClass('border-t-2', 'border-gray-500');
   },
 };
 
@@ -89,9 +89,9 @@ export const SortBySilver: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const silverColumn = canvas.getByTestId('sort-silver');
+    const silverButton = canvas.getByTestId('sort-silver');
     
-    await expect(silverColumn).toHaveClass('border-t-2', 'border-gray-500');
+    await expect(silverButton.parentElement).toHaveClass('border-t-2', 'border-gray-500');
   },
 };
 
@@ -102,9 +102,9 @@ export const SortByBronze: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const bronzeColumn = canvas.getByTestId('sort-bronze');
+    const bronzeButton = canvas.getByTestId('sort-bronze');
     
-    await expect(bronzeColumn).toHaveClass('border-t-2', 'border-gray-500');
+    await expect(bronzeButton.parentElement).toHaveClass('border-t-2', 'border-gray-500');
   },
 };
 
@@ -115,9 +115,9 @@ export const SortByTotal: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const totalColumn = canvas.getByTestId('sort-total');
+    const totalButton = canvas.getByTestId('sort-total');
     
-    await expect(totalColumn).toHaveClass('border-t-2', 'border-gray-500');
+    await expect(totalButton.parentElement).toHaveClass('border-t-2', 'border-gray-500');
   },
 };
 
@@ -129,24 +129,24 @@ export const ClickInteractions: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     
-    // Test clicking on silver column
-    const silverColumn = canvas.getByTestId('sort-silver');
-    await userEvent.click(silverColumn);
+    // Test clicking on silver button
+    const silverButton = canvas.getByTestId('sort-silver');
+    await userEvent.click(silverButton);
     await expect(args.onSort).toHaveBeenCalledWith('silver');
     
-    // Test clicking on bronze column
-    const bronzeColumn = canvas.getByTestId('sort-bronze');
-    await userEvent.click(bronzeColumn);
+    // Test clicking on bronze button
+    const bronzeButton = canvas.getByTestId('sort-bronze');
+    await userEvent.click(bronzeButton);
     await expect(args.onSort).toHaveBeenCalledWith('bronze');
     
-    // Test clicking on total column
-    const totalColumn = canvas.getByTestId('sort-total');
-    await userEvent.click(totalColumn);
+    // Test clicking on total button
+    const totalButton = canvas.getByTestId('sort-total');
+    await userEvent.click(totalButton);
     await expect(args.onSort).toHaveBeenCalledWith('total');
     
-    // Test clicking on gold column
-    const goldColumn = canvas.getByTestId('sort-gold');
-    await userEvent.click(goldColumn);
+    // Test clicking on gold button
+    const goldButton = canvas.getByTestId('sort-gold');
+    await userEvent.click(goldButton);
     await expect(args.onSort).toHaveBeenCalledWith('gold');
   },
 };
@@ -159,15 +159,15 @@ export const KeyboardInteractions: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     
-    // Test Enter key on silver column
-    const silverColumn = canvas.getByTestId('sort-silver');
-    silverColumn.focus();
+    // Test Enter key on silver button
+    const silverButton = canvas.getByTestId('sort-silver');
+    silverButton.focus();
     await userEvent.keyboard('{Enter}');
     await expect(args.onSort).toHaveBeenCalledWith('silver');
     
-    // Test Space key on bronze column
-    const bronzeColumn = canvas.getByTestId('sort-bronze');
-    bronzeColumn.focus();
+    // Test Space key on bronze button
+    const bronzeButton = canvas.getByTestId('sort-bronze');
+    bronzeButton.focus();
     await userEvent.keyboard(' ');
     await expect(args.onSort).toHaveBeenCalledWith('bronze');
   },
