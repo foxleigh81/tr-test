@@ -1,7 +1,17 @@
 {
-  "name": "medal-count",
+  "name": "olympic-medals-dashboard",
   "version": "0.1.0",
   "private": true,
+  "description": "Olympic Medals Dashboard",
+  "author": {
+    "name": "Alex Foxley",
+    "email": "alex@foxleigh.com",
+    "url": "https://www.alexfoxleigh.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/foxleigh81/tr-test"
+  },
   "scripts": {
     "dev": "concurrently \"next dev --turbopack\" \"storybook dev -p 6006\"",
     "next": "next dev --turbopack",
